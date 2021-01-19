@@ -1,6 +1,4 @@
 require 'pry'
-require_relative './song.rb'
-require_relative './artist.rb'
 
 class MP3Importer
     attr_accessor :path
@@ -14,6 +12,6 @@ class MP3Importer
     end
 
     def import
-        files.map { |file| Song.new_by_filename(file) }
+        files.each { |file| Song.new_by_filename(file) }
     end
 end
