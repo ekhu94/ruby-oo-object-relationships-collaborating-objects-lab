@@ -1,38 +1,34 @@
-require_relative './artist'
-require_relative './mp3_importer'
+require 'pry'
 
 class Song
-    attr_accessor :name, :artist
-
     @@all = []
+
+    def self.all
+        @@all
+    end
+
+    def self.new_by_filename(file_name)
+        name = file_name.split(" - ")[0]
+        song = file_name.split(" - ")[1]
+
+        new_song = Song.new(song)
+        new_song.artist_name = name
+        new_song
+    end
+
+    attr_accessor :name, :artist
 
     def initialize(name)
         @name = name
         save
     end
 
-    def self.new_by_filename(file)
-        artist_str = file.split(" - ")[0]
-        title = file.split(" - ")[1]
-        song = Song.new(title)
-        artist = Artist.new(artist_str)
-        artist_name = artist
-        song.name = title
-        song.artist = artist_name
-        # binding.pry
-        song
-    end
-
-    def artist_name=(name)
-        artist = Artist.find_or_create_by_name(name)
-        self.artist = artist
-    end
-
     def save
         @@all << self
     end
 
-    def self.all
-        @@all
+    def artist_name=(name)
+        artist = Artist.find_or_create_by_name(name)
+        @artist = artist
     end
 end
